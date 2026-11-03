@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title> Foundations of Health & Illness</title>
+    <style>
+        /* ===== BASE ===== */
+        :root {
+            --bg1: #0a0e1a;
+            --bg2: #141e33;
+            --primary: #00d4ff;
+            --primary-dark: #0099cc;
+            --accent: #facc15;
+            --danger: #f87171;
+            --success: #34d399;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text: #e8edf5;
+            --muted: #94a3b8;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --glow: 0 0 30px rgba(0, 212, 255, 0.06);
+            --radius: 16px;
+            --header-bg: rgba(255, 255, 255, 0.03);
+            --header-border: rgba(255, 255, 255, 0.04);
+            --footer-border: rgba(255, 255, 255, 0.03);
+            --table-header-bg: rgba(0, 212, 255, 0.08);
+            --card-title-bg: rgba(0, 212, 255, 0.06);
+            --highlight-bg: #facc15;
+            --highlight-text: #0f172a;
+        }
+
+        [data-theme="light"] {
+            --bg1: #f0f4f8;
+            --bg2: #e2e8f0;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --text: #0f172a;
+            --muted: #475569;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --glow: 0 0 30px rgba(0, 212, 255, 0.02);
+            --header-bg: rgba(255, 255, 255, 0.7);
+            --header-border: rgba(0, 0, 0, 0.04);
+            --footer-border: rgba(0, 0, 0, 0.04);
+            --table-header-bg: rgba(0, 212, 255, 0.12);
+            --card-title-bg: rgba(0, 212, 255, 0.08);
+            --highlight-bg: #facc15;
+            --highlight-text: #0f172a;
+        }
+
+        .highlight-text {
+            background-color: var(--highlight-bg);
+            color: var(--highlight-text);
+            padding: 0 4px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--bg1), var(--bg2), #0f1a2b);
+            min-height: 100vh;
+            color: var(--text);
+            padding: 16px 8px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            transition: background 0.4s ease;
+        }
+        .app { max-width: 1100px; width: 100%; }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 16px 16px;
+            background: var(--header-bg);
+            border-radius: 20px;
+            border: 1px solid var(--header-border);
+            backdrop-filter: blur(4px);
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 4px 25px rgba(0, 212, 255, 0.15);
+            transition: color 0.3s ease;
+        }
+        [data-theme="light"] .header h1 { color: #0f172a; text-shadow: none; }
+        .header h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .sub {
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .header .creator {
+            color: var(--muted);
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+        .header .creator .name { color: var(--text); font-weight: 700; }
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+        }
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            background: rgba(0, 212, 255, 0.08);
+            transform: scale(1.05);
+        }
+        [data-theme="light"] .theme-toggle {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+
+        /* ===== TABS ===== */
+        .tabs-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+        .tab-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .tab-btn:hover { border-color: var(--primary); color: var(--text); }
+        .tab-btn.active {
+            border-color: var(--primary);
+            background: rgba(0, 212, 255, 0.08);
+            color: var(--primary);
+        }
+        .tab-btn .en { display: block; font-size: 0.7rem; }
+        .tab-btn .ar { display: block; font-size: 0.55rem; opacity: 0.7; }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow), var(--glow);
+            padding: 18px 14px;
+            margin-bottom: 16px;
+            transition: background 0.3s ease, border 0.3s ease;
+            display: none;
+        }
+        .card.active { display: block; }
+        .card h2 {
+            font-size: 1.3rem;
+            color: var(--text);
+            border-right: 4px solid var(--primary);
+            padding-right: 12px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        /* ===== SLIDES ===== */
+        .slide-container {
+            position: relative;
+            min-height: 300px;
+        }
+        .slide {
+            display: none;
+            animation: fadeSlide 0.3s ease;
+        }
+        .slide.active { display: block; }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateX(15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .slide-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        .slide-progress .bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            margin: 0 12px;
+            overflow: hidden;
+        }
+        .slide-progress .bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #818cf8);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        .slide-progress .count {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .slide-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        .slide-nav .btn-nav {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 80px;
+            text-align: center;
+        }
+        .slide-nav .btn-nav:hover:not(:disabled) {
+            background: rgba(0, 212, 255, 0.08);
+            border-color: var(--primary);
+        }
+        .slide-nav .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        .slide-nav .btn-nav.primary {
+            background: var(--primary);
+            color: #0a0e1a;
+            border-color: var(--primary);
+        }
+        .slide-nav .btn-nav.primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        [data-theme="light"] .slide-nav .btn-nav {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+
+        /* ===== CARDS GRID ===== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+            margin-bottom: 8px;
+        }
+
+        .topic-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 14px 14px 12px;
+            transition: border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .topic-card:hover { border-color: var(--primary); }
+
+        .topic-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--card-title-bg);
+        }
+        .topic-card .card-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--primary);
+            line-height: 1.4;
+            flex: 1;
+        }
+        .topic-card .card-title-ar {
+            color: var(--muted);
+            font-weight: 400;
+            display: none;
+        }
+        .topic-card .card-title-ar.show { display: inline; }
+        .topic-card .card-title-en { display: inline; }
+        .topic-card .card-title-en.hidden { display: none; }
+
+        .topic-card .translate-btn {
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 0.6rem;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-right: 8px;
+        }
+        .topic-card .translate-btn:hover {
+            background: rgba(0, 212, 255, 0.18);
+            border-color: var(--primary);
+        }
+        .topic-card .translate-btn.active {
+            background: rgba(0, 212, 255, 0.18);
+            border-color: var(--primary);
+        }
+
+        .topic-card .card-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
+        .topic-card .card-items li {
+            padding: 4px 0 4px 0;
+            line-height: 1.6;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        [data-theme="light"] .topic-card .card-items li {
+            border-bottom-color: rgba(0, 0, 0, 0.04);
+        }
+        .topic-card .card-items li:last-child { border-bottom: none; }
+
+        /* ===== TTS: English text clickable, NO speaker icon ===== */
+        .topic-card .item-en {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            display: block;
+            text-align: left;
+            direction: ltr;
+            cursor: pointer;
+            transition: color 0.2s ease, background 0.2s ease;
+            border-radius: 4px;
+            padding: 1px 3px;
+            margin-left: -3px;
+        }
+        .topic-card .item-en:hover {
+            color: var(--primary);
+            background: rgba(0, 212, 255, 0.06);
+        }
+        .topic-card .item-en.speaking {
+            color: var(--primary);
+            background: rgba(0, 212, 255, 0.12);
+        }
+
+        .topic-card .item-ar {
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            text-align: right;
+            direction: rtl;
+            display: none;
+            margin-top: 2px;
+            padding-right: 8px;
+            border-right: 2px solid rgba(0, 212, 255, 0.2);
+        }
+        .topic-card .item-ar.show { display: block; }
+
+        .topic-card .card-items.numbered {
+            counter-reset: item-counter;
+        }
+        .topic-card .card-items.numbered li {
+            padding-right: 28px;
+            position: relative;
+            counter-increment: item-counter;
+        }
+        .topic-card .card-items.numbered li::before {
+            content: counter(item-counter) "-";
+            position: absolute;
+            right: 2px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* ===== TABLES ===== */
+        .info-table-wrap {
+            overflow-x: auto;
+            margin: 12px 0;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            grid-column: 1 / -1;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            min-width: 500px;
+        }
+        .info-table th {
+            background: var(--table-header-bg);
+            color: var(--primary);
+            padding: 8px 6px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            font-weight: 700;
+        }
+        .info-table td {
+            padding: 8px 6px;
+            border-bottom: 1px solid var(--card-border);
+            vertical-align: top;
+            line-height: 1.5;
+        }
+        .info-table tr:last-child td { border-bottom: none; }
+        .info-table .ar-text {
+            border-right: none;
+            padding-right: 0;
+            margin-top: 2px;
+            font-size: 0.78rem;
+            display: block;
+            color: var(--muted);
+        }
+        .info-table .en-text {
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: color 0.2s ease, background 0.2s ease;
+            border-radius: 4px;
+            padding: 1px 3px;
+            margin-left: -3px;
+            display: inline-block;
+            text-align: left;
+            direction: ltr;
+        }
+        .info-table .en-text:hover {
+            color: var(--primary);
+            background: rgba(0, 212, 255, 0.06);
+        }
+        .info-table .en-text.speaking {
+            color: var(--primary);
+            background: rgba(0, 212, 255, 0.12);
+        }
+
+        @media (max-width: 600px) {
+            .cards-grid { grid-template-columns: 1fr; }
+            .info-table { font-size: 0.72rem; min-width: 350px; }
+            .topic-card .card-title { font-size: 0.85rem; }
+        }
+
+        .footer-credit {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.12);
+            font-size: 0.7rem;
+            margin-top: 24px;
+            padding: 10px 0;
+            border-top: 1px solid var(--footer-border);
+        }
+        [data-theme="light"] .footer-credit { color: rgba(0, 0, 0, 0.2); }
+        .footer-credit .name { color: var(--primary); font-weight: 600; }
+
+        @media (max-width: 768px) {
+            body { padding: 8px 4px; }
+            .header h1 { font-size: 1.4rem; }
+            .tab-btn { padding: 6px 10px; font-size: 0.6rem; }
+            .card { padding: 14px 10px; }
+            .card h2 { font-size: 1.1rem; }
+        }
+
+        .topic-card.full-width { grid-column: 1 / -1; }
+
+        /* ===== PDF DOWNLOAD BUTTON ===== */
+        .pdf-btn {
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            border-radius: 30px;
+            padding: 8px 18px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--danger);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .pdf-btn:hover {
+            background: rgba(248, 113, 113, 0.2);
+            border-color: var(--danger);
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+        <div class="header">
+            <div class="header-top">
+                <div>
+                    <h1><span class="highlight">Foundations of Health & Illness</span></h1>
+                    <div class="sub"></div>
+                    <div class="creator">Created by <span class="name">MR. YASSIN THARWAT</span></div>
+                </div>
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="تبديل الوضع">☀</button>
+            </div>
+        </div>
+
+        <div class="tabs-wrap" id="tabsContainer"></div>
+        <div id="sectionsContainer"></div>
+        <div class="footer-credit">
+            Created by <span class="name">MR. YASSIN THARWAT</span>
+        </div>
+    </div>
+
+    <script>
+        // ================================================================
+        //  THEME
+        // ================================================================
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            document.getElementById('themeToggle').textContent = theme === 'light' ? '☾' : '☀';
+            localStorage.setItem('theme', theme);
+            currentTheme = theme;
+        }
+        function toggleTheme() { applyTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
+
+        // ================================================================
+        //  SLIDE SYSTEM
+        // ================================================================
+        let slideState = {};
+
+        function initSlideState(partId, totalSlides) {
+            slideState[partId] = { current: 0, total: totalSlides };
+        }
+
+        function renderSlide(partId, containerId) {
+            const state = slideState[partId];
+            if (!state) return;
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const slides = container.querySelectorAll('.slide');
+            slides.forEach((s, i) => s.classList.toggle('active', i === state.current));
+            const progressBar = container.querySelector('.slide-progress .fill');
+            const countSpan = container.querySelector('.slide-progress .count');
+            if (progressBar) progressBar.style.width = ((state.current + 1) / state.total * 100) + '%';
+            if (countSpan) countSpan.textContent = `${state.current + 1} / ${state.total}`;
+            const prevBtn = container.querySelector('.btn-nav.prev');
+            const nextBtn = container.querySelector('.btn-nav.next');
+            if (prevBtn) prevBtn.disabled = state.current === 0;
+            if (nextBtn) nextBtn.disabled = state.current === state.total - 1;
+        }
+
+        function goToSlide(partId, containerId, index) {
+            const state = slideState[partId];
+            if (!state) return;
+            if (index < 0) index = 0;
+            if (index >= state.total) index = state.total - 1;
+            state.current = index;
+            renderSlide(partId, containerId);
+        }
+
+        // ================================================================
+        //  HELPERS
+        // ================================================================
+        function stripHTML(html) {
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            return tmp.textContent || tmp.innerText || '';
+        }
+
+        function createSlideHTML(title, cardsHTML) {
+            return `
+                <div class="slide">
+                    <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:12px; border-right:3px solid var(--primary); padding-right:10px;">${title}</h3>
+                    <div class="cards-grid">${cardsHTML}</div>
+                </div>
+            `;
+        }
+
+        function card(title, items, arTitle = '') {
+            const cardId = 'c' + Math.random().toString(36).substr(2, 8);
+            const itemsHTML = items.map((item) => {
+                const en = item.en || item;
+                const ar = item.ar || '';
+                return `<li><span class="item-en" data-text="${stripHTML(en).replace(/"/g, '&quot;')}">${en}</span><span class="item-ar">${ar}</span></li>`;
+            }).join('');
+            const listClass = items.some(i => i.en && i.en.match(/^\d/)) ? 'card-items numbered' : 'card-items simple';
+            return `
+                <div class="topic-card" data-card="${cardId}">
+                    <div class="card-header">
+                        <span class="card-title">
+                            <span class="card-title-en">${title}</span>
+                            <span class="card-title-ar" id="${cardId}-title-ar">${arTitle}</span>
+                        </span>
+                        <button class="translate-btn" data-card="${cardId}" onclick="toggleCardTranslation('${cardId}')">ترجمة</button>
+                    </div>
+                    <ul class="${listClass}">${itemsHTML}</ul>
+                </div>
+            `;
+        }
+
+        function tableCard(title, tableHTML, arTitle = '') {
+            return `
+                <div class="topic-card full-width">
+                    <div class="card-header">
+                        <span class="card-title">
+                            <span class="card-title-en">${title}</span>
+                            <span class="card-title-ar" style="display:block;">${arTitle}</span>
+                        </span>
+                    </div>
+                    <div class="info-table-wrap">${tableHTML}</div>
+                </div>
+            `;
+        }
+
+        function cell(en, ar) {
+            return `<span class="en-text" data-text="${stripHTML(en).replace(/"/g, '&quot;')}">${en}</span><span class="ar-text">${ar}</span>`;
+        }
+
+        function toggleCardTranslation(cardId) {
+            const card = document.querySelector(`.topic-card[data-card="${cardId}"]`);
+            if (!card) return;
+            const arItems = card.querySelectorAll('.item-ar');
+            const titleAr = document.getElementById(`${cardId}-title-ar`);
+            const titleEn = card.querySelector('.card-title-en');
+            const btn = card.querySelector('.translate-btn');
+            const isVisible = arItems.length > 0 && arItems[0].classList.contains('show');
+            arItems.forEach(el => el.classList.toggle('show'));
+            if (titleAr) {
+                titleAr.classList.toggle('show');
+                if (titleEn) titleEn.classList.toggle('hidden');
+            }
+            if (btn) {
+                btn.textContent = isVisible ? 'ترجمة' : 'إخفاء';
+                btn.classList.toggle('active');
+            }
+        }
+
+        // ================================================================
+        //  TEXT-TO-SPEECH (TTS) - Hidden, clicks on English text only
+        // ================================================================
+        function initTTS() {
+            if (!window.speechSynthesis) return;
+            if (window.speechSynthesis.getVoices().length === 0) {
+                window.speechSynthesis.onvoiceschanged = function() {};
+            }
+            document.addEventListener('click', function(e) {
+                const target = e.target.closest('.item-en, .en-text');
+                if (!target) return;
+                if (e.target.closest('.translate-btn')) return;
+                const text = (target.getAttribute('data-text') || target.textContent || '').trim();
+                if (!text) return;
+                speakText(text, target);
+            });
+        }
+
+        function speakText(text, element) {
+            const synth = window.speechSynthesis;
+            if (!synth) return;
+            synth.cancel();
+            document.querySelectorAll('.speaking').forEach(el => el.classList.remove('speaking'));
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            const voices = synth.getVoices();
+            const englishVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google'))
+                || voices.find(v => v.lang.startsWith('en-US'))
+                || voices.find(v => v.lang.startsWith('en'));
+            if (englishVoice) utterance.voice = englishVoice;
+
+            utterance.onstart = () => { if (element) element.classList.add('speaking'); };
+            utterance.onend = () => { if (element) element.classList.remove('speaking'); };
+            utterance.onerror = () => { if (element) element.classList.remove('speaking'); };
+            synth.speak(utterance);
+        }
+
+        // ================================================================
+        //  PDF DOWNLOAD — FINAL FIX: single-column flow, no forced breaks
+        //  → No blank pages
+        //  → No one-line pages
+        // ================================================================
+        function downloadPDF(sectionId) {
+            const sec = slidesData[sectionId];
+            if (!sec) return;
+
+            let allSlidesHTML = '';
+            sec.slides.forEach((slide) => {
+                let cardsHTML = '';
+                if (slide.cards) {
+                    slide.cards.forEach(c => { cardsHTML += c; });
+                }
+                allSlidesHTML += `
+                    <div class="pdf-slide">
+                        <div class="pdf-slide-header">
+                            <h2>${slide.title}</h2>
+                        </div>
+                        <div class="pdf-cards">${cardsHTML}</div>
+                    </div>
+                `;
+            });
+
+            const printWindow = window.open('', '_blank');
+            if (!printWindow) {
+                alert('يرجى السماح بالنوافذ المنبثقة لتحميل PDF');
+                return;
+            }
+
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="ar" dir="rtl">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Foundations of Health & Illness</title>
+                    <style>
+                        @page { margin: 12mm 10mm; size: A4; }
+                        * { margin: 0; padding: 0; box-sizing: border-box; }
+                        html, body {
+                            -webkit-print-color-adjust: exact;
+                            print-color-adjust: exact;
+                        }
+                        body {
+                            font-family: 'Segoe UI', Tahoma, sans-serif;
+                            font-size: 13px;
+                            color: #111;
+                            line-height: 1.55;
+                            /* Small orphans/widows so we don't force blank space */
+                            orphans: 2;
+                            widows: 2;
+                        }
+                        /* ===== Subject Header ===== */
+                        .pdf-subject-header {
+                            text-align: center;
+                            border-bottom: 3px solid #0099cc;
+                            padding-bottom: 8px;
+                            margin-bottom: 14px;
+                        }
+                        .pdf-subject-header h1 {
+                            font-size: 26px;
+                            color: #0099cc;
+                            font-weight: 800;
+                            letter-spacing: 2px;
+                        }
+                        .pdf-subject-header .creator {
+                            font-size: 12px;
+                            color: #666;
+                            margin-top: 3px;
+                        }
+
+                        /* ===== Slide ===== */
+                        .pdf-slide {
+                            margin-bottom: 14px;
+                            padding: 0;
+                            page-break-inside: auto;
+                            break-inside: auto;
+                        }
+                        .pdf-slide-header {
+                            margin-bottom: 8px;
+                            padding-bottom: 5px;
+                            border-bottom: 2.5px solid #0099cc;
+                            page-break-after: avoid;
+                            break-after: avoid;
+                        }
+                        .pdf-slide-header h2 {
+                            font-size: 16px;
+                            color: #0077aa;
+                            font-weight: 700;
+                            line-height: 1.35;
+                        }
+
+                        /* ===== Cards flow as single column (reliable in print) ===== */
+                        .pdf-cards {
+                            display: block;
+                        }
+                        .pdf-cards .topic-card {
+                            display: block;
+                            border: 1.5px solid #e0e0e0;
+                            border-radius: 6px;
+                            padding: 8px 10px;
+                            background: #ffffff;
+                            margin-bottom: 8px;
+                            /* NO page-break-inside: avoid → allows natural flow, prevents blank pages */
+                            page-break-inside: auto;
+                            break-inside: auto;
+                        }
+                        .pdf-cards .card-header {
+                            border-bottom: 2px solid #0099cc;
+                            padding-bottom: 4px;
+                            margin-bottom: 6px;
+                            page-break-after: avoid;
+                            break-after: avoid;
+                        }
+                        .pdf-cards .card-title {
+                            font-size: 13.5px;
+                            font-weight: 700;
+                            color: #0077aa;
+                            line-height: 1.35;
+                        }
+                        .pdf-cards .card-title-ar {
+                            font-size: 12px;
+                            color: #555;
+                            font-weight: 400;
+                            display: block;
+                            margin-top: 2px;
+                        }
+                        .pdf-cards .card-title-en { display: block; }
+                        .pdf-cards .translate-btn { display: none; }
+                        .pdf-cards ul { list-style: none; padding: 0; margin: 0; }
+                        .pdf-cards li {
+                            padding: 4px 0;
+                            border-bottom: 1px dotted #e5e5e5;
+                            font-size: 12.5px;
+                            line-height: 1.5;
+                            /* Keep each item intact, but cards can break BETWEEN items */
+                            page-break-inside: avoid;
+                            break-inside: avoid;
+                        }
+                        .pdf-cards li:last-child { border-bottom: none; }
+                        .pdf-cards .item-en {
+                            font-weight: 600;
+                            display: block;
+                            text-align: left;
+                            direction: ltr;
+                            font-size: 12.5px;
+                            color: #111;
+                        }
+                        .pdf-cards .item-ar {
+                            display: block;
+                            color: #555;
+                            font-size: 12px;
+                            text-align: right;
+                            direction: rtl;
+                            padding-right: 6px;
+                            border-right: 3px solid #cce;
+                            margin-top: 3px;
+                            line-height: 1.5;
+                        }
+                        .pdf-cards .highlight-text {
+                            background: #facc15;
+                            color: #0f172a;
+                            padding: 0 3px;
+                            border-radius: 3px;
+                        }
+                        .pdf-cards .numbered { counter-reset: item-counter; }
+                        .pdf-cards .numbered li {
+                            padding-right: 22px;
+                            position: relative;
+                            counter-increment: item-counter;
+                        }
+                        .pdf-cards .numbered li::before {
+                            content: counter(item-counter) "-";
+                            position: absolute;
+                            right: 0;
+                            color: #0099cc;
+                            font-weight: 700;
+                            font-size: 12.5px;
+                        }
+
+                        /* ===== Tables: only rows kept intact ===== */
+                        .info-table-wrap {
+                            margin: 8px 0;
+                            border: 1px solid #ccc;
+                            border-radius: 6px;
+                            overflow: visible;
+                            page-break-inside: auto;
+                            break-inside: auto;
+                        }
+                        .info-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            font-size: 12px;
+                            page-break-inside: auto;
+                        }
+                        .info-table thead {
+                            display: table-header-group;
+                        }
+                        .info-table tr {
+                            page-break-inside: avoid;
+                            break-inside: avoid;
+                        }
+                        .info-table th {
+                            background: #e6f4fa;
+                            color: #0077aa;
+                            padding: 5px 4px;
+                            text-align: center;
+                            border-bottom: 2px solid #0099cc;
+                            font-weight: 700;
+                        }
+                        .info-table td {
+                            padding: 5px 4px;
+                            border-bottom: 1px solid #e0e0e0;
+                            vertical-align: top;
+                            line-height: 1.45;
+                        }
+                        .info-table tr:last-child td { border-bottom: none; }
+                        .info-table .ar-text {
+                            display: block;
+                            margin-top: 2px;
+                            font-size: 11.5px;
+                            color: #666;
+                        }
+                        .info-table .en-text {
+                            font-size: 12px;
+                            display: inline-block;
+                            text-align: left;
+                            direction: ltr;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="pdf-subject-header">
+                        <h1>FOUNDATIONS OF HEALTH & ILLNESS</h1>
+                        <div class="creator">Created by MR. YASSIN THARWAT</div>
+                    </div>
+                    ${allSlidesHTML}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            setTimeout(() => {
+                printWindow.focus();
+                printWindow.print();
+            }, 600);
+        }
+
+        // ================================================================
+        //  DATA: HEALTH & ILLNESS FOUNDATIONS
+        // ================================================================
+        const healthData = {
+            titleEn: 'Lecture 1',
+            titleAr: 'المحاضرة الأولى',
+            slides: [
+                {
+                    title: 'What is Health? · ما هي الصحة؟',
+                    cards: [
+                        card('Definition of Health · تعريف الصحة', [
+                            { en: 'Health is a state of <span class="highlight-text">complete physical, mental and social well-being</span> and not merely the absence of disease or infirmity.', ar: 'الصحة هي حالة من <span class="highlight-text">اكتمال السلامة البدنية والنفسية والاجتماعية</span>، وليست مجرد غياب المرض أو العجز.' }
+                        ], 'تعريف الصحة:'),
+                        card('Dimensions of Health · أبعاد الصحة', [
+                            { en: 'There are <span class="highlight-text">three dimensions</span> of health: Holistic, Positive, and Negative.', ar: 'هناك <span class="highlight-text">ثلاثة أبعاد</span> للصحة: الشمولي، الإيجابي، والسلبي.' }
+                        ], 'أبعاد الصحة:')
+                    ]
+                },
+                {
+                    title: 'A) Holistic Dimension · البعد الشمولي',
+                    cards: [
+                        card('Holistic Dimension · البعد الشمولي', [
+                            { en: 'Is the belief that being healthy means being <span class="highlight-text">without any physical disorders or diseases</span> and being <span class="highlight-text">emotionally comfortable</span>.', ar: 'هو الاعتقاد بأن تكون صحيحاً يعني أن تكون <span class="highlight-text">خالياً من أي اضطرابات جسدية أو أمراض</span> وأن تكون <span class="highlight-text">مرتاحاً عاطفياً</span>.' },
+                            { en: 'Example: a person who feels anxious or who has low self-esteem would, according to this concept, may not be well. Likewise, a person with malaria.', ar: 'مثال: شخص يشعر بالقلق أو لديه تدني احترام الذات، وفقاً لهذا المفهوم، قد لا يكون بصحة جيدة. وكذلك شخص مصاب بالملاريا.' }
+                        ], 'البعد الشمولي:'),
+                        card('Advantages of Holistic Dimension · مزايا البعد الشمولي', [
+                            { en: 'It tends to make people <span class="highlight-text">sensitive about their health</span>.', ar: 'يميل إلى جعل الناس <span class="highlight-text">حساسين تجاه صحتهم</span>.' },
+                            { en: 'This can help them to <span class="highlight-text">notice symptoms more quickly</span> than other people.', ar: 'هذا يمكن أن يساعدهم على <span class="highlight-text">ملاحظة الأعراض بشكل أسرع</span> من الآخرين.' },
+                            { en: 'It can spur people to <span class="highlight-text">eat healthy and live healthy</span>.', ar: 'يمكن أن يحفز الناس على <span class="highlight-text">الأكل الصحي والحياة الصحية</span>.' }
+                        ], 'مزايا البعد الشمولي:'),
+                        card('Disadvantages of Holistic Dimension · عيوب البعد الشمولي', [
+                            { en: 'It can lead to <span class="highlight-text">oversensitivity to signs and symptoms of illness</span>.', ar: 'يمكن أن يؤدي إلى <span class="highlight-text">فرط الحساسية لعلامات وأعراض المرض</span>.' },
+                            { en: 'Oversensitivity can lead people to believe that they are ill when they are not.', ar: 'فرط الحساسية يمكن أن يجعل الناس يعتقدون أنهم مرضى وهم ليسوا كذلك.' },
+                            { en: 'It can lead to <span class="highlight-text">unnecessary worry</span> and result in people wasting their Doctor\'s time.', ar: 'يمكن أن يؤدي إلى <span class="highlight-text">قلق غير ضروري</span> وإهدار وقت الطبيب.' }
+                        ], 'عيوب البعد الشمولي:')
+                    ]
+                },
+                {
+                    title: 'B) Positive Dimension · البعد الإيجابي',
+                    cards: [
+                        card('Positive Dimension · البعد الإيجابي', [
+                            { en: 'A positive dimension of health is the belief that being healthy is a state achieved only by <span class="highlight-text">continuous effort</span>.', ar: 'البعد الإيجابي للصحة هو الاعتقاد بأن الصحة حالة لا تُكتسب إلا <span class="highlight-text">بجهد مستمر</span>.' },
+                            { en: 'People with this belief take <span class="highlight-text">active steps</span> to maintain their health, e.g., through their choice of food, by taking exercise and other activities they believe will keep them well.', ar: 'أصحاب هذا الاعتقاد يتخذون <span class="highlight-text">خطوات فعلية</span> للحفاظ على صحتهم، مثل اختيار الطعام، وممارسة الرياضة وغيرها من الأنشطة التي يعتقدون أنها تحافظ على صحتهم.' },
+                            { en: 'Such people are likely to feel <span class="highlight-text">responsible for their own health</span>.', ar: 'هؤلاء الناس من المرجح أن يشعروا <span class="highlight-text">بالمسؤولية عن صحتهم</span>.' }
+                        ], 'البعد الإيجابي:'),
+                        card('Advantages of Positive Dimension · مزايا البعد الإيجابي', [
+                            { en: 'Take plenty of <span class="highlight-text">exercise</span>, avoid smoking and excessive intake of alcohol, and eat a <span class="highlight-text">balanced diet</span>.', ar: 'ممارسة الكثير من <span class="highlight-text">الرياضة</span>، وتجنب التدخين والإفراط في الكحول، وتناول <span class="highlight-text">غذاء متوازن</span>.' },
+                            { en: 'Tend to be <span class="highlight-text">active rather than passive</span> in relation to their own health.', ar: 'يميلون إلى أن يكونوا <span class="highlight-text">نشطين بدلاً من سلبيين</span> تجاه صحتهم.' }
+                        ], 'مزايا البعد الإيجابي:'),
+                        card('Disadvantage of Positive Dimension · عيوب البعد الإيجابي', [
+                            { en: 'Taking responsibility for their own health, people might <span class="highlight-text">blame themselves for their illnesses</span> and feel guilty when they become ill.', ar: 'بتحمل المسؤولية عن صحتهم، قد <span class="highlight-text">يلومون أنفسهم على أمراضهم</span> ويشعرون بالذنب عندما يمرضون.' }
+                        ], 'عيوب البعد الإيجابي:')
+                    ]
+                },
+                {
+                    title: 'C) Negative Dimension · البعد السلبي',
+                    cards: [
+                        card('Negative Dimension · البعد السلبي', [
+                            { en: 'Being healthy is the <span class="highlight-text">absence of illness</span>, for example, not having any symptoms of disease, pain or distress.', ar: 'أن تكون صحيحاً هو <span class="highlight-text">غياب المرض</span>، مثلاً عدم وجود أي أعراض للمرض أو الألم أو الضيق.' },
+                            { en: 'People with this view are likely to believe that good health is <span class="highlight-text">normal and to take it for granted</span>.', ar: 'أصحاب هذا الرأي يعتقدون أن الصحة الجيدة <span class="highlight-text">أمر طبيعي ومُسلَّم به</span>.' }
+                        ], 'البعد السلبي:'),
+                        card('Advantage of Negative Dimension · مزايا البعد السلبي', [
+                            { en: 'A person may be <span class="highlight-text">less anxious</span> about his/her health.', ar: 'قد يكون الشخص <span class="highlight-text">أقل قلقاً</span> على صحته.' }
+                        ], 'مزايا البعد السلبي:'),
+                        card('Disadvantage of Negative Dimension · عيوب البعد السلبي', [
+                            { en: 'A person believes that being healthy is <span class="highlight-text">by chance</span>, while those with positive concepts take active steps to stay well.', ar: 'يعتقد الشخص أن الصحة <span class="highlight-text">بالحظ</span>، بينما أصحاب المفاهيم الإيجابية يتخذون خطوات فعلية للبقاء بصحة جيدة.' },
+                            { en: 'He/she may think less of healthy habits as well as measures to live healthy.', ar: 'قد يقل اهتمامه بالعادات الصحية وإجراءات الحياة الصحية.' }
+                        ], 'عيوب البعد السلبي:')
+                    ]
+                },
+                {
+                    title: 'What is Illness? · ما هو المرض؟',
+                    cards: [
+                        card('Definition 1 · التعريف الأول', [
+                            { en: 'Bishop (1994) defined Illness as the <span class="highlight-text">experience of suffering and discomfort</span>, which may or may not be related to objective physical pathology.', ar: 'عرّف بيشوب (1994) المرض بأنه <span class="highlight-text">خبرة المعاناة وعدم الراحة</span>، والتي قد ترتبط أو لا ترتبط بمرض جسدي موضوعي.' }
+                        ], 'التعريف الأول:'),
+                        card('Definition 2 · التعريف الثاني', [
+                            { en: 'Barondness (1979); Jennings (1986), defined illness as an <span class="highlight-text">experience of discomfort and suffering</span>.', ar: 'باروندنيس (1979)؛ جينينغز (1986)، عرّفوا المرض بأنه <span class="highlight-text">خبرة عدم الراحة والمعاناة</span>.' }
+                        ], 'التعريف الثاني:')
+                    ]
+                },
+                {
+                    title: 'Perspectives of Illness · منظورات المرض',
+                    cards: [
+                        card('A) Illness as the Subjective Sensation · المرض كإحساس ذاتي', [
+                            { en: 'A subjective sensation of illness means <span class="highlight-text">feeling ill</span>.', ar: 'الإحساس الذاتي بالمرض يعني <span class="highlight-text">الشعور بالمرض</span>.' }
+                        ], 'المرض كإحساس ذاتي:'),
+                        card('B) Illness as Observable Symptoms of Disease · المرض كأعراض ملحوظة', [
+                            { en: 'Disease refers to a <span class="highlight-text">diagnosable problem</span>, which might be physiological (a physical disorder) or psychiatric (a mental disorder).', ar: 'يشير المرض إلى <span class="highlight-text">مشكلة قابلة للتشخيص</span>، قد تكون فسيولوجية (اضطراب جسدي) أو نفسية (اضطراب نفسي).' }
+                        ], 'المرض كأعراض ملحوظة:'),
+                        card('C) Illness as a Disorder or Malfunction · المرض كاضطراب أو خلل', [
+                            { en: 'The term disorder refers to some <span class="highlight-text">malfunction of a body tissue, organ or system</span>.', ar: 'يشير مصطلح الاضطراب إلى <span class="highlight-text">خلل في نسيج أو عضو أو جهاز بالجسم</span>.' },
+                            { en: 'This concept is based on the idea that body systems <span class="highlight-text">can go wrong</span>.', ar: 'هذا المفهوم يقوم على فكرة أن أجهزة الجسم <span class="highlight-text">يمكن أن تتعطل</span>.' }
+                        ], 'المرض كاضطراب أو خلل:')
+                    ]
+                },
+                {
+                    title: 'Illness Dynamics · ديناميكيات المرض',
+                    cards: [
+                        card('Illness Dynamics · ديناميكيات المرض', [
+                            { en: 'The relationship among one\'s <span class="highlight-text">biological status</span> (e.g., genetic constitution and physical pathology), <span class="highlight-text">emotional makeup</span>, and the <span class="highlight-text">supports and stresses of a social matrix</span> (confluence of biological, psychological, and social aspects).', ar: 'العلاقة بين <span class="highlight-text">الحالة البيولوجية</span> (مثل التكوين الوراثي والباثولوجيا الجسدية)، و<span class="highlight-text">التكوين العاطفي</span>، و<span class="highlight-text">الدعم والضغوط الاجتماعية</span> (تلاقي الجوانب البيولوجية والنفسية والاجتماعية).' },
+                            { en: 'Represents the patient\'s understanding of a specific disease during a particular period of life.', ar: 'تمثل فهم المريض لمرض معين خلال فترة معينة من حياته.' },
+                            { en: 'Illness dynamics incline one to assess all illness-related information in light of <span class="highlight-text">singular values, wishes, needs, and fears</span>.', ar: 'ديناميكيات المرض تجعل الشخص يقيّم كل المعلومات المتعلقة بالمرض في ضوء <span class="highlight-text">قيمه ورغباته واحتياجاته ومخاوفه</span>.' },
+                            { en: 'Ultimately causing the patient to perceive, assess, and defend against the loss of health in a <span class="highlight-text">highly subjective manner</span>.', ar: 'مما يجعل المريض يدرك ويقيّم ويدافع ضد فقدان الصحة <span class="highlight-text">بشكل ذاتي للغاية</span>.' },
+                            { en: 'This may significantly affect the patient\'s ability to <span class="highlight-text">cope with the disease</span>.', ar: 'قد يؤثر هذا بشكل كبير على قدرة المريض على <span class="highlight-text">التكيف مع المرض</span>.' }
+                        ], 'ديناميكيات المرض:')
+                    ]
+                },
+                {
+                    title: 'Major Components of Illness Dynamics · المكونات الرئيسية',
+                    cards: [
+                        tableCard(
+                            'Major Components of Illness Dynamics · المكونات الرئيسية لديناميكيات المرض',
+                            `
+                            <table class="info-table">
+                                <thead><tr>
+                                    <th>${cell('Biological · بيولوجي', 'بيولوجي')}</th>
+                                    <th>${cell('Psychological · نفسي', 'نفسي')}</th>
+                                    <th>${cell('Social · اجتماعي', 'اجتماعي')}</th>
+                                </tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${cell('Nature, severity, and time course of disease', 'طبيعة المرض وشدته ومساره الزمني')}</td>
+                                        <td>${cell('Personality type', 'نوع الشخصية')}</td>
+                                        <td>${cell('Dynamics of family relationships', 'ديناميكيات العلاقات الأسرية')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Affected organ, system, body part, or body function', 'العضو أو الجهاز أو الجزء أو الوظيفة المتأثرة')}</td>
+                                        <td>${cell('Interpersonal aspects of the therapeutic relationship (e.g., countertransference)', 'الجوانب الشخصية في العلاقة العلاجية (مثل التحويل المضاد)')}</td>
+                                        <td>${cell('Family attitudes toward illness', 'اتجاهات الأسرة تجاه المرض')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Baseline physiological functioning and physical resilience', 'الوظيفة الفسيولوجية الأساسية والمرونة الجسدية')}</td>
+                                        <td>${cell('Previous psychiatric history', 'التاريخ النفسي السابق')}</td>
+                                        <td>${cell('Level of interpersonal functioning (educational, occupational, friendships)', 'مستوى الأداء الشخصي (التعليمي، المهني، الصداقات)')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Genetic endowment', 'التكوين الوراثي')}</td>
+                                        <td>${cell('Effect of past history on attitudes toward treatment (e.g., postoperative complications)', 'أثر التاريخ السابق على الاتجاه نحو العلاج (مثل مضاعفات ما بعد الجراحة)')}</td>
+                                        <td>${cell('Cultural attitudes', 'الاتجاهات الثقافية')}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            `,
+                            'المكونات الرئيسية لديناميكيات المرض'
+                        )
+                    ]
+                },
+                {
+                    title: 'Quick Summary · خلاصة سريعة',
+                    cards: [
+                        tableCard(
+                            'Cheat Sheet · ورقة المراجعة السريعة',
+                            `
+                            <table class="info-table">
+                                <thead><tr>
+                                    <th>${cell('Concept', 'المفهوم')}</th>
+                                    <th>${cell('Essence', 'الجوهر')}</th>
+                                </tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${cell('Health', 'الصحة')}</td>
+                                        <td>${cell('Physical + mental + social well-being', 'سلامة بدنية + نفسية + اجتماعية')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Holistic', 'شمولي')}</td>
+                                        <td>${cell('Free of disease + emotionally comfortable → oversensitivity', 'خالٍ من المرض + مرتاح عاطفياً → حساسية زائدة')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Positive', 'إيجابي')}</td>
+                                        <td>${cell('Continuous effort → active but may blame self', 'جهد مستمر → نشاط لكن قد يلوم نفسه')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Negative', 'سلبي')}</td>
+                                        <td>${cell('Absence of illness → less anxious but neglectful', 'غياب المرض → أقل قلقاً لكن إهمال')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Illness', 'المرض')}</td>
+                                        <td>${cell('Experience of suffering/discomfort (subjective or objective)', 'خبرة معاناة/عدم راحة (ذاتية أو موضوعية)')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Illness Dynamics', 'ديناميكيات المرض')}</td>
+                                        <td>${cell('Biological + psychological + social → subjective understanding of illness', 'بيولوجي + نفسي + اجتماعي → فهم ذاتي للمرض')}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            `,
+                            'ورقة المراجعة السريعة'
+                        )
+                    ]
+                }
+            ]
+        };
+
+        // ================================================================
+        //  DATA: LECTURE 2 — BODY-MIND RELATIONSHIP
+        // ================================================================
+        const bodyMindData = {
+            titleEn: 'Lecture 2',
+            titleAr: 'المحاضرة الثانية',
+            slides: [
+                {
+                    title: 'Introduction · المقدمة',
+                    cards: [
+                        card('Mind · العقل', [
+                            { en: 'Mind is the sum total of various mental processes such as thinking, knowing, feeling, reasoning, observing, wishing, judging, remembering, etc.', ar: 'العقل هو مجموع العمليات العقلية المختلفة مثل التفكير والمعرفة والشعور والاستدلال والملاحظة والتمني والحكم والتذكر وغيرها.' }
+                        ], 'العقل:')
+                    ]
+                },
+                {
+                    title: 'Body-Mind Relationship · علاقة الجسم بالعقل',
+                    cards: [
+                        card('Body-Mind Relationship · علاقة الجسم بالعقل', [
+                            { en: 'Mind is regarded as the function of body; it does not exist apart from the body.', ar: 'يُعتبر العقل وظيفة من وظائف الجسم؛ فهو لا يوجد منفصلاً عن الجسم.' },
+                            { en: 'Our mind grows as our body grows.', ar: 'ينمو عقلنا بنمو جسمنا.' },
+                            { en: 'Mind becomes more complex of advancing years.', ar: 'يزداد العقل تعقيداً مع تقدم السن.' }
+                        ], 'علاقة الجسم بالعقل:')
+                    ]
+                },
+                {
+                    title: 'Body-Mind Aspects · جوانب الجسم والعقل',
+                    cards: [
+                        card('Two Aspects · جانبان', [
+                            { en: 'Body-mind interaction has two aspects: physical and mental function.', ar: 'لتفاعل الجسم والعقل جانبان: الوظيفة الجسدية والوظيفة العقلية.' },
+                            { en: 'These two aspects influence each other.', ar: 'هذان الجانبان يؤثران في بعضهما البعض.' }
+                        ], 'جانبان:'),
+                        card('Physical Aspects Influencing Mental Function · الجوانب الجسدية المؤثرة على الوظيفة العقلية', [
+                            { en: 'Sense organs', ar: 'أعضاء الحس' },
+                            { en: 'Muscles', ar: 'العضلات' },
+                            { en: 'Glands', ar: 'الغدد' },
+                            { en: 'Nervous system', ar: 'الجهاز العصبي' }
+                        ], 'الجوانب الجسدية:')
+                    ]
+                },
+                {
+                    title: 'A) Sense Organs · أعضاء الحس',
+                    cards: [
+                        card('Sense Organs · أعضاء الحس', [
+                            { en: 'Various sense organs influence body and mental functions.', ar: 'تؤثر أعضاء الحس المختلفة في وظائف الجسم والعقل.' },
+                            { en: 'They are receptors of external body organs providing knowledge of the world and surroundings.', ar: 'هي مستقبلات للأعضاء الخارجية للجسم توفر المعرفة بالعالم والمحيط.' },
+                            { en: 'Skin, eyes, ears, tongue are examples.', ar: 'الجلد والعينان والأذنان واللسان أمثلة عليها.' },
+                            { en: 'Each sense organ has a distinct function.', ar: 'لكل عضو حس وظيفة مميزة.' }
+                        ], 'أعضاء الحس:'),
+                        card('Sensory Defects / Disorders · عيوب أو اضطرابات الحس', [
+                            { en: 'Visual disturbances', ar: 'اضطرابات بصرية' },
+                            { en: 'Auditory disorders', ar: 'اضطرابات سمعية' },
+                            { en: 'Olfactory disorders', ar: 'اضطرابات شمية' },
+                            { en: 'Gustatory disorders', ar: 'اضطرابات تذوقية' },
+                            { en: 'Tactile disorders', ar: 'اضطرابات لمسية' }
+                        ], 'عيوب الحس:')
+                    ]
+                },
+                {
+                    title: 'Applied Aspects of Sensations · الجوانب التطبيقية للحواس',
+                    cards: [
+                        card('Applied Aspects in Mental Processes · الجوانب التطبيقية في العمليات العقلية', [
+                            { en: 'Flowers and dull colors should be arranged for patients who need rest and sedative influences.', ar: 'يجب ترتيب الأزهار والألوان الباهتة للمرضى الذين يحتاجون إلى الراحة والتأثيرات المهدئة.' },
+                            { en: 'Provide warm, bright colors and light for those who need stimulation and encouragement.', ar: 'توفير ألوان دافئة ومشرقة وإضاءة لمن يحتاجون إلى التحفيز والتشجيع.' },
+                            { en: 'Windows in the ward should be shaded to prevent ocular discomfort.', ar: 'يجب تظليل نوافذ العنبر لمنع إزعاج العين.' },
+                            { en: 'Reduce noise around the sickroom to a minimum discomfort.', ar: 'تقليل الضوضاء حول غرفة المريض إلى الحد الأدنى من الإزعاج.' },
+                            { en: 'Control unpleasant odors from the ward.', ar: 'التحكم في الروائح غير السارة من العنبر.' },
+                            { en: 'Food should be freshly prepared, clean, tasty, served cheerfully, and free from strong odors and spices.', ar: 'يجب أن يكون الطعام طازجاً ونظيفاً ولذيذاً ويُقدَّم بمرح وخالياً من الروائح القوية والتوابل.' },
+                            { en: 'Bed should be free from wrinkles to lead to comfortable sleep.', ar: 'يجب أن يكون السرير خالياً من التجاعيد لنوم مريح.' }
+                        ], 'الجوانب التطبيقية:')
+                    ]
+                },
+                {
+                    title: 'B) Muscles and Glands · العضلات والغدد',
+                    cards: [
+                        card('Muscles · العضلات', [
+                            { en: 'Skeletal muscles provide overt movements such as walking, running, gesturing, throwing, handling objects, etc.', ar: 'العضلات الهيكلية توفر الحركات الظاهرة مثل المشي والجري والإيماء والرمي والتعامل مع الأشياء وغيرها.' },
+                            { en: 'Smooth muscles provide movements for vital processes such as breathing, excretion, circulation, and digestion.', ar: 'العضلات الملساء توفر حركات للعمليات الحيوية مثل التنفس والإخراج والدوران والهضم.' }
+                        ], 'العضلات:'),
+                        card('Glands · الغدد', [
+                            { en: 'Glands play an important part in human behavior.', ar: 'تلعب الغدد دوراً مهماً في السلوك البشري.' },
+                            { en: 'Glandular activity is largely responsible for digestion of food, elimination, production and prolongation of emotional states, and regulation of general metabolism.', ar: 'النشاط الغدي مسؤول إلى حد كبير عن هضم الطعام والإخراج وإنتاج وإطالة الحالات العاطفية وتنظيم الأيض العام.' }
+                        ], 'الغدد:')
+                    ]
+                },
+                {
+                    title: 'Types of Glands · أنواع الغدد',
+                    cards: [
+                        card('Duct Glands · الغدد القنوية', [
+                            { en: 'Examples: salivary glands, gastric glands, sweat glands.', ar: 'أمثلة: الغدد اللعابية والمعدية والعرقية.' },
+                            { en: 'They usually secrete tears, urea, gastric juices, sweat.', ar: 'تفرز عادة الدموع والبولينا والعصارات المعدية والعرق.' },
+                            { en: 'They become overactive or underactive under the influence of emotions.', ar: 'تصبح مفرطة النشاط أو خاملة تحت تأثير العواطف.' },
+                            { en: 'Example: sweat glands become overactive in anger and fear; salivary glands in fear become underactive.', ar: 'مثال: الغدد العرقية تصبح مفرطة النشاط في الغضب والخوف؛ والغدد اللعابية في الخوف تصبح خاملة.' }
+                        ], 'الغدد القنوية:'),
+                        card('Ductless Glands · الغدد الصماء (بدون قنوات)', [
+                            { en: 'These glands become overactive or underactive and produce various mental and emotional instability.', ar: 'تصبح هذه الغدد مفرطة أو خاملة وتنتج عدم استقرار عقلي وعاطفي متنوع.' },
+                            { en: 'Hypothyroidism causes mental retardation and dullness.', ar: 'قصور الغدة الدرقية يسبب تأخراً عقلياً وبلادة.' },
+                            { en: 'Hyperthyroidism leads to excitement, nervousness, hyperactivity, insomnia.', ar: 'فرط الغدة الدرقية يؤدي إلى الإثارة والعصبية وفرط النشاط والأرق.' },
+                            { en: 'Hypoparathyroidism causes high sensitivity to criticism and distractibility.', ar: 'قصور جارات الدرقية يسبب حساسية عالية للنقد وتشتت الانتباه.' },
+                            { en: 'Hyperparathyroidism causes lack of interest, lethargy, etc.', ar: 'فرط جارات الدرقية يسبب فقدان الاهتمام والخمول وغيرها.' }
+                        ], 'الغدد الصماء:')
+                    ]
+                },
+                {
+                    title: 'C) Nervous System · الجهاز العصبي',
+                    cards: [
+                        card('Divisions of Nervous System · أقسام الجهاز العصبي', [
+                            { en: 'Central nervous system (CNS)', ar: 'الجهاز العصبي المركزي' },
+                            { en: 'Peripheral nervous system (PNS)', ar: 'الجهاز العصبي المحيطي' },
+                            { en: 'CNS consists of brain and spinal cord.', ar: 'يتكون الجهاز العصبي المركزي من الدماغ والحبل الشوكي.' }
+                        ], 'أقسام الجهاز العصبي:'),
+                        card('Brain Hemispheres · نصفي الكرة المخية', [
+                            { en: 'Brain is composed of two hemispheres separated by a deep groove called the corpus callosum.', ar: 'يتكون الدماغ من نصفي كرة مفصولين بشق عميق يسمى الجسم الثفني.' },
+                            { en: 'The outer shell is called the cortex.', ar: 'الطبقة الخارجية تسمى القشرة.' },
+                            { en: 'Left hemisphere appears dominant in most people; controls speech, rationality, and logic.', ar: 'يبدو النصف الأيسر مهيمناً في معظم الناس؛ يتحكم في الكلام والعقلانية والمنطق.' },
+                            { en: 'Right hemisphere is non-dominant in most people; associated with affect, behavior, and perceptual functions.', ar: 'النصف الأيمن غير مهيمن في معظم الناس؛ يرتبط بالعاطفة والسلوك والوظائف الإدراكية.' }
+                        ], 'نصفا الكرة المخية:')
+                    ]
+                },
+                {
+                    title: 'Lobes of the Brain · فصوص الدماغ',
+                    cards: [
+                        card('Frontal Lobe · الفص الجبهي', [
+                            { en: 'Controls voluntary body movement, speaking, thinking, judgment, and emotional experience such as fear, aggressiveness, depression, rage, euphoria, irritability, and apathy.', ar: 'يتحكم في حركة الجسم الإرادية والكلام والتفكير والحكم والخبرة العاطفية مثل الخوف والعدوانية والاكتئاب والغضب والنشوة والتهيج واللامبالاة.' }
+                        ], 'الفص الجبهي:'),
+                        card('Parietal Lobe · الفص الجداري', [
+                            { en: 'Controls perception, interpretation of most sensory information (touch, pain, taste, body position), and language interpretation.', ar: 'يتحكم في الإدراك وتفسير معظم المعلومات الحسية (اللمس والألم والتذوق ووضع الجسم) وتفسير اللغة.' }
+                        ], 'الفص الجداري:'),
+                        card('Temporal Lobe · الفص الصدغي', [
+                            { en: 'Concerned with auditory functions, short-term memory, sense of smell, and expression of emotions.', ar: 'يختص بالوظائف السمعية والذاكرة قصيرة المدى وحاسة الشم والتعبير عن العواطف.' }
+                        ], 'الفص الصدغي:'),
+                        card('Occipital Lobe · الفص القذالي', [
+                            { en: 'Primary area of visual reception and interpretation.', ar: 'المنطقة الأساسية للاستقبال البصري والتفسير.' }
+                        ], 'الفص القذالي:')
+                    ]
+                },
+                {
+                    title: 'Structure of the Brain · تركيب الدماغ',
+                    cards: [
+                        card('Hindbrain · الدماغ الخلفي', [
+                            { en: 'Medulla oblongata: regulates heartbeats, breathing, swallowing, and digestion.', ar: 'النخاع المستطيل: ينظم ضربات القلب والتنفس والبلع والهضم.' },
+                            { en: 'Cerebellum: controls body coordination, balance, and muscle tone; damage causes jerky movement.', ar: 'المخيخ: يتحكم في تناسق الجسم والتوازن والتوتر العضلي؛ تلفه يسبب حركة متشنجة.' },
+                            { en: 'Pons: relays information between cerebral cortex and cerebellum.', ar: 'الجسر: ينقل المعلومات بين القشرة المخية والمخيخ.' }
+                        ], 'الدماغ الخلفي:'),
+                        card('Midbrain · الدماغ المتوسط', [
+                            { en: 'Controls eye movements and coordination by Reticular Activating System (RAS), essential to regulate consciousness (sleep, wakefulness, arousal, attention) as well as heart function and breathing.', ar: 'يتحكم في حركات العين والتناسق عبر الجهاز الشبكي المنشط (RAS)، الضروري لتنظيم الوعي (النوم واليقظة والاستثارة والانتباه) وكذلك وظيفة القلب والتنفس.' }
+                        ], 'الدماغ المتوسط:'),
+                        card('Forebrain · الدماغ الأمامي', [
+                            { en: 'Comprises the limbic system: hippocampus, amygdala, hypothalamus, septum, and thalamus.', ar: 'يشمل الجهاز الحوفي: الحصين واللوزة والوطاء والحاجز والمهاد.' }
+                        ], 'الدماغ الأمامي:')
+                    ]
+                },
+                {
+                    title: 'Limbic System · الجهاز الحوفي',
+                    cards: [
+                        card('Limbic Structures · تراكيب الجهاز الحوفي', [
+                            { en: 'Hippocampus: plays an essential role in memory formation.', ar: 'الحصين: يلعب دوراً أساسياً في تكوين الذاكرة.' },
+                            { en: 'Amygdala: located below hippocampus; plays a role in anger and aggression.', ar: 'اللوزة: تقع تحت الحصين؛ تلعب دوراً في الغضب والعدوانية.' },
+                            { en: 'Septum: involved in anger and fear.', ar: 'الحاجز: يشارك في الغضب والخوف.' },
+                            { en: 'Thalamus: relays sensory information to cerebral cortex; also involved with emotions and mood.', ar: 'المهاد: ينقل المعلومات الحسية إلى القشرة المخية؛ ويشارك أيضاً في العواطف والمزاج.' },
+                            { en: 'Hypothalamus: regulates water balance in tissues, bloodstream, temperature, eating, sleeping, endocrine system, and sexual motivation.', ar: 'الوطاء: ينظم توازن الماء في الأنسجة ومجرى الدم ودرجة الحرارة والأكل والنوم والجهاز الصماء والدافع الجنسي.' }
+                        ], 'تراكيب الجهاز الحوفي:')
+                    ]
+                },
+                {
+                    title: 'Spinal Cord & Neurons · الحبل الشوكي والخلايا العصبية',
+                    cards: [
+                        card('Spinal Cord · الحبل الشوكي', [
+                            { en: 'Extends through the center of the back, starting at the brain and ending at the lower end of the back.', ar: 'يمتد عبر مركز الظهر، بدءاً من الدماغ وانتهاءً بالطرف السفلي للظهر.' },
+                            { en: 'Collects information from PNS and transmits it to the brain; relays information back from brain to outline neurons.', ar: 'يجمع المعلومات من الجهاز العصبي المحيطي وينقلها إلى الدماغ؛ وينقل المعلومات من الدماغ إلى الخلايا العصبية الطرفية.' }
+                        ], 'الحبل الشوكي:'),
+                        card('Neurons · الخلايا العصبية', [
+                            { en: 'Individual cells that receive and transmit information within the nervous system to the spinal cord.', ar: 'خلايا فردية تستقبل وتنقل المعلومات داخل الجهاز العصبي إلى الحبل الشوكي.' },
+                            { en: 'Structure: cell body, axon, dendrites.', ar: 'التركيب: جسم الخلية والمحور والتغصنات.' },
+                            { en: 'Cell body contains nucleus; essential for continued life of neuron.', ar: 'جسم الخلية يحتوي النواة؛ ضروري لاستمرار حياة الخلية العصبية.' },
+                            { en: 'Dendrites transmit impulses toward cell body; axon transmits impulses away.', ar: 'التغصنات تنقل النبضات نحو جسم الخلية؛ والمحور ينقل النبضات بعيداً.' },
+                            { en: 'Junction between two neurons is called a synapse.', ar: 'الوصلة بين خليتين عصبيتين تسمى المشبك.' }
+                        ], 'الخلايا العصبية:')
+                    ]
+                },
+                {
+                    title: 'Neurotransmitters · النواقل العصبية',
+                    cards: [
+                        card('Definition of Neurotransmitters · تعريف النواقل العصبية', [
+                            { en: 'Neurotransmitters are responsible for <span class="highlight-text">essential functions in the role of human emotion and behavior</span>.', ar: 'النواقل العصبية مسؤولة عن <span class="highlight-text">وظائف أساسية في دور العاطفة والسلوك البشري</span>.' }
+                        ], 'تعريف النواقل العصبية:'),
+                        card('Acetylcholine · الأسيتيل كولين', [
+                            { en: 'First chemical identified and proven as a neurotransmitter; implicated in sleep, arousal, pain perception, coordination of movement, and memory acquisition and retention.', ar: 'أول مادة كيميائية تم تحديدها وإثباتها كناقل عصبي؛ ترتبط بالنوم والاستثارة وإدراك الألم وتناسق الحركة واكتساب الذاكرة والاحتفاظ بها.' }
+                        ], 'الأسيتيل كولين:'),
+                        card('Norepinephrine · النورإبينفرين', [
+                            { en: 'Associated with the fight-or-flight syndrome in response to stress; may have a role in regulation of mood, cognition, and perception.', ar: 'يرتبط بمتلازمة القتال أو الهروب استجابةً للضغط؛ وقد يكون له دور في تنظيم المزاج والإدراك والحس.' }
+                        ], 'النورإبينفرين:'),
+                        card('Dopamine · الدوبامين', [
+                            { en: 'Involved in regulation of movements and coordination, emotions, and voluntary decision-making ability.', ar: 'يشارك في تنظيم الحركات والتناسق والعواطف والقدرة على اتخاذ القرار الإرادي.' }
+                        ], 'الدوبامين:'),
+                        card('Serotonin · السيروتونين', [
+                            { en: 'May play a role in sleep and arousal, appetite, mood, aggression, and pain perception.', ar: 'قد يلعب دوراً في النوم والاستثارة والشهية والمزاج والعدوانية وإدراك الألم.' }
+                        ], 'السيروتونين:')
+                    ]
+                },
+                {
+                    title: 'Quick Summary · خلاصة سريعة',
+                    cards: [
+                        tableCard(
+                            'Body-Mind Cheat Sheet · ورقة مراجعة سريعة',
+                            `
+                            <table class="info-table">
+                                <thead><tr>
+                                    <th>${cell('Concept', 'المفهوم')}</th>
+                                    <th>${cell('Essence', 'الجوهر')}</th>
+                                </tr></thead>
+                                <tbody>
+                                    <tr><td>${cell('Body-mind relationship', 'علاقة الجسم بالعقل')}</td><td>${cell('Mind is a function of the body and grows with it', 'العقل وظيفة للجسم وينمو معه')}</td></tr>
+                                    <tr><td>${cell('Physical aspects', 'الجوانب الجسدية')}</td><td>${cell('Sense organs, muscles, glands, nervous system', 'أعضاء الحس والعضلات والغدد والجهاز العصبي')}</td></tr>
+                                    <tr><td>${cell('Sensory defects', 'عيوب الحس')}</td><td>${cell('Visual, auditory, olfactory, gustatory, tactile', 'بصرية وسمعية وشمّية وتذوقية ولمسية')}</td></tr>
+                                    <tr><td>${cell('Duct glands', 'الغدد القنوية')}</td><td>${cell('Salivary, gastric, sweat; affected by emotions', 'لعابية ومعدية وعرقية؛ تتأثر بالعواطف')}</td></tr>
+                                    <tr><td>${cell('Ductless glands', 'الغدد الصماء')}</td><td>${cell('Thyroid/parathyroid imbalance → mental/emotional instability', 'اختلال الدرقية/جارات الدرقية → عدم استقرار عقلي/عاطفي')}</td></tr>
+                                    <tr><td>${cell('Brain lobes', 'فصوص الدماغ')}</td><td>${cell('Frontal, parietal, temporal, occipital', 'جبهي وجداري وصدغي وقذالي')}</td></tr>
+                                    <tr><td>${cell('Neurotransmitters', 'النواقل العصبية')}</td><td>${cell('Acetylcholine, norepinephrine, dopamine, serotonin', 'أسيتيل كولين، نورإبينفرين، دوبامين، سيروتونين')}</td></tr>
+                                </tbody>
+                            </table>
+                            `,
+                            'ورقة مراجعة سريعة'
+                        )
+                    ]
+                }
+            ]
+        };
+
+        // ================================================================
+        //  BUILD APP
+        // ================================================================
+        const slidesData = { health: healthData, bodyMind: bodyMindData };
+        const sectionOrder = ['health', 'bodyMind'];
+
+        function renderSlideContent(slide) {
+            if (slide.cards && Array.isArray(slide.cards)) {
+                return createSlideHTML(slide.title, slide.cards.join(''));
+            }
+            return createSlideHTML(slide.title, '');
+        }
+
+        function switchSection(secId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.section === secId);
+            });
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.toggle('active', card.id === `section-${secId}`);
+            });
+        }
+
+        function buildApp() {
+            const tabsContainer = document.getElementById('tabsContainer');
+            const sectionsContainer = document.getElementById('sectionsContainer');
+
+            let isFirstSection = true;
+
+            sectionOrder.forEach((secId) => {
+                const sec = slidesData[secId];
+                if (!sec) return;
+
+                const tab = document.createElement('button');
+                tab.className = 'tab-btn' + (isFirstSection ? ' active' : '');
+                tab.dataset.section = secId;
+                tab.innerHTML = `<span class="en">${sec.titleEn}</span><span class="ar">${sec.titleAr}</span>`;
+                tab.addEventListener('click', () => switchSection(secId));
+                tabsContainer.appendChild(tab);
+
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card' + (isFirstSection ? ' active' : '');
+                cardEl.id = `section-${secId}`;
+
+                const slidesHTML = sec.slides.map(s => renderSlideContent(s)).join('');
+                const totalSlides = sec.slides.length;
+
+                cardEl.innerHTML = `
+                    <h2>${sec.titleEn} · ${sec.titleAr}</h2>
+                    <div style="text-align:center; margin-bottom:12px;">
+                        <button class="pdf-btn" onclick="downloadPDF('${secId}')">📄 تحميل المحاضرة PDF</button>
+                    </div>
+                    <div class="slide-container" id="slideContainer-${secId}">
+                        <div class="slide-progress">
+                            <span style="font-weight:600;">التقدم</span>
+                            <div class="bar"><div class="fill" style="width:0%;"></div></div>
+                            <span class="count">1 / ${totalSlides}</span>
+                        </div>
+                        ${slidesHTML}
+                        <div class="slide-nav">
+                            <button class="btn-nav prev" onclick="goToSlide('${secId}', 'slideContainer-${secId}', slideState['${secId}'].current - 1)">السابق</button>
+                            <button class="btn-nav next primary" onclick="goToSlide('${secId}', 'slideContainer-${secId}', slideState['${secId}'].current + 1)">التالي</button>
+                        </div>
+                    </div>
+                `;
+                sectionsContainer.appendChild(cardEl);
+
+                initSlideState(secId, totalSlides);
+                setTimeout(() => renderSlide(secId, `slideContainer-${secId}`), 50);
+
+                isFirstSection = false;
+            });
+
+            setTimeout(() => initTTS(), 200);
+        }
+
+        // ================================================================
+        //  INIT
+        // ================================================================
+        applyTheme(localStorage.getItem('theme') || 'dark');
+        buildApp();
+
+        window.goToSlide = goToSlide;
+        window.slideState = slideState;
+        window.toggleTheme = toggleTheme;
+        window.toggleCardTranslation = toggleCardTranslation;
+        window.downloadPDF = downloadPDF;
+        window.switchSection = switchSection;
+    </script>
+</body>
+</html>
